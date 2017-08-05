@@ -1,0 +1,10 @@
+<div *ngIf="dataInfo.show" class="alert alert-info" (click)="hideMessage()">
+  {{ dataInfo.message }}
+</div>
+
+<div *ngFor="let animal of animals">
+  {{animal.name}} <br/>
+  <input type="number" [(ngModel)]="animal.quantity"> {{animal.product}}
+  <hr>
+</div>
+<input type="button" value="Submit" (click)="inputData()">

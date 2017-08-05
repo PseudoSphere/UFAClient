@@ -1,0 +1,17 @@
+<div *ngIf="error.display" class="alert alert-warning">
+  <p>{{ error.message }}</p>
+</div> 
+
+<div>
+  <h3>Create New Account</h3>
+  Username<br>
+  <input type="text" [(ngModel)]="user.name"><br>
+  {{user.name}}
+  <hr>
+
+  Password<br>
+  <input type="text" [(ngModel)]="user.password"><br>
+  {{user.password}}
+  <hr>
+</div>
+<input type="button" value="Register" (click)="register()">
