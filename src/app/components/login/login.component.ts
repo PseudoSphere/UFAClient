@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'
+import {Http, Headers} from '@angular/http';
+import 'rxjs/add/operator/map';
+
+//Globals
+import { UserControlService } from '../../globals/user-control.service';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -8,21 +13,21 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  @ViewChild(NavbarComponent) private navbar: NavbarComponent;
-  
+export class LoginComponent implements OnInit {  
   user: user;
   error: error;
 
   constructor(
     private router: Router,
+    private http: Http,
+    private userControl: UserControlService
   ) {
     this.user = {
-      name:"",
+      username:"",
       password:""
     }
     this.error = {
-      message: "Incorrect Username or Password."
+      message: ""
     }
   }
 
@@ -30,24 +35,43 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log("Username: " + this.user.name + 
-      ", Password: " + this.user.password);
+    // HTTP request
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     
-    // Placeholder validation
-    if(this.user.password == "password") {
-      console.log(this.navbar);
-      this.router.navigate(['/']);
-      
-    }
-    else {
+    var response = this.http.post(
+      '/login',
+      this.user,
+      {headers});
+
+    response
+      .map(n => n.json())
+      .subscribe(
+        data => this.newData(data),
+        err => this.httpErrResponse(err),
+        () => console.log("Data Transfer Complete"));
+  }
+
+  // Handle new data response
+  newData(data) {
+    if(data.success) {
+      this.userControl.loggedIn = true;
+      this.router.navigate(['/profile']);
+
+      this.userControl.username = data.username;
+      this.userControl.token = data.token;
+
+    } else {
+      this.error.message = data.message;
       this.error.display = true;
     }
   }
 
-  hideMessage() {
-    this.error.display = false;
+  // Handle response with error
+  httpErrResponse(err) {
+    this.error.message = err.statusText;
+    this.error.display = true;
   }
-
 }
 
 interface error {
@@ -56,6 +80,6 @@ interface error {
 }
 
 interface user {
-  name: string;
+  username: string;
   password: string;
 }

@@ -5,13 +5,11 @@
 <div>
   <h3>Create New Account</h3>
   Username<br>
-  <input type="text" [(ngModel)]="user.name"><br>
-  {{user.name}}
+  <input type="text" [(ngModel)]="user.username"><br>
   <hr>
 
   Password<br>
   <input type="text" [(ngModel)]="user.password"><br>
-  {{user.password}}
   <hr>
 </div>
-<input type="button" value="Register" (click)="register()">
+<input type="button" class="btn" value="Register" (click)="register()">

@@ -6,8 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  image: String;
 
-  constructor() { }
+  constructor() {
+    localStorage.setItem('homage', 'http://lorempixel.com/600/100/abstract/');
+    this.image = localStorage.getItem('homage');
+  }
 
   ngOnInit() {
   }

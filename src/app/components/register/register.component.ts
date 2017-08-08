@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {Http, Headers} from '@angular/http';
+import 'rxjs/add/operator/map';
+
+//Globals
+import { UserControlService } from '../../globals/user-control.service';
 
 @Component({
   selector: 'app-register',
@@ -11,10 +16,12 @@ export class RegisterComponent implements OnInit {
   error: error;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private http: Http,
+    private userControl: UserControlService
   ) {
     this.user = {
-      name:"",
+      username:"",
       password:""
     }
     this.error = {
@@ -26,18 +33,42 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    console.log("Username: " + this.user.name + 
-      ", Password: " + this.user.password);
+    // HTTP request
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     
-    // Placeholder password validation
-    if(this.user.password == "password") {
-      this.router.navigate(['/']);
-    }
-    else {
+    var response = this.http.post(
+      '/register',
+      this.user,
+      {headers});
+
+    response
+      .map(n => n.json())
+      .subscribe(
+        data => this.newData(data),
+        err => this.httpErrResponse(err),
+        () => console.log("Data Transfer Complete"));
+  }
+
+  // Handle new data response
+  newData(data) {
+    if(data.success) {
+      this.userControl.loggedIn = true;
+      this.router.navigate(['/profile']);
+
+      this.userControl.username = data.username;
+      this.userControl.token = data.token;
+    } else {
+      this.error.message = data.message;
       this.error.display = true;
     }
   }
 
+  // Handle response with error
+  httpErrResponse(err) {
+    this.error.message = err.statusText;
+    this.error.display = true;
+  }
 }
 
 interface error {
@@ -46,6 +77,6 @@ interface error {
 }
 
 interface user {
-  name: string;
+  username: string;
   password: string;
 }

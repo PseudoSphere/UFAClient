@@ -1,16 +1,14 @@
-<div *ngIf="error.display" class="alert alert-warning" (click)="hideMessage()">
+<div *ngIf="error.display" class="alert alert-warning" (click)="this.error.display = false">
   <p>{{ error.message }}</p>
 </div> 
 
 <div>
   Username<br>
-  <input type="text" [(ngModel)]="user.name"><br>
-  {{user.name}}
+  <input type="text" [(ngModel)]="user.username"><br>
   <hr>
 
   Password<br>
   <input type="text" [(ngModel)]="user.password"><br>
-  {{user.password}}
   <hr>
 </div>
-<input type="button" value="Login" (click)="login()">
+<input type="button" class="btn" value="Login" (click)="login()">

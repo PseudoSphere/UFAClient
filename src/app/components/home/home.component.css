@@ -1,0 +1,11 @@
+.thumbnail {
+    position: relative;
+    border: 0;
+}
+
+.caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
