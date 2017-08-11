@@ -1,10 +1,19 @@
-<div *ngIf="dataInfo.show" class="alert alert-info" (click)="hideMessage()">
-  {{ dataInfo.message }}
-</div>
-
-<div *ngFor="let animal of animals">
-  {{animal.name}} <br/>
-  <input type="number" [(ngModel)]="animal.quantity"> {{animal.product}}
+<div class="container" style="max-width:500px">
+  <div *ngIf="dataInfo.show" class="alert alert-info" (click)="hideMessage()">
+    {{ dataInfo.message }}
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Date</span>
+    <input type="date" [(ngModel)]="inputDate" class="form-control">
+  </div>
   <hr>
+  <div *ngFor="let animal of animals">
+    <div class="input-group">
+      <span class="input-group-addon">{{animal.name}}</span>
+      <input type="number" [(ngModel)]="animal.quantity" class="form-control"> 
+      <span class="input-group-addon">{{animal.product}}</span>
+    </div>
+    <hr>
+  </div>
+  <input type="button" class="btn btn-block" value="Submit" (click)="inputData()">
 </div>
-<input type="button" class="btn" value="Submit" (click)="inputData()">

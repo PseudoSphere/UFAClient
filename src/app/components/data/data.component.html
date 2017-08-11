@@ -1,5 +1,17 @@
-<table><tr>
-    <td><div class="input-group">
+<div class="container">
+    <canvas id="myChart"></canvas>
+    <div *ngIf="showGraph">
+        <input type="checkbox" [checked]="graphCEggs.show" (change)="updateCEggs()">Graph Chicken Egg Data<br>
+        <input type="checkbox" [checked]="graphDEggs.show"(change)="updateDEggs()">Graph Duck Egg Data<br>
+        <input type="checkbox" [checked]="graphGMilk.show" (change)="updateGMilk()">Graph Goat Milk Data<br>
+    </div>
+</div>
+
+<div class="container" style="max-width:500px">
+    <div *ngIf="dataInfo.show" class="alert alert-info" (click)="hideMessage()">
+    {{ dataInfo.message }}
+  </div>
+    <div class="input-group">
         <span class="input-group-btn" (click)="getData()">
             <button class="btn btn-default" type="button">View </button>
         </span>
@@ -7,12 +19,11 @@
         <span class="input-group-btn" (click)="getData()">
             <button class="btn btn-default" type="button"> days </button>
         </span>
-    </div></td>
-    <td></td>
-</tr></table>
+    </div>
+</div>
 <hr>
 
-<div *ngIf="showTable">
+<div *ngIf="showTable" class="container">
     <table class="table table-striped table-responsive text-center">
         <thead>
             <tr>
@@ -20,18 +31,53 @@
                 <th class="text-center">Chicken Eggs</th>
                 <th class="text-center">Duck Eggs</th>
                 <th class="text-center">Goat Milk</th>
+                <th class="text-center" colspan="2">Options</th>
             </tr>
         </thead>
         <tbody *ngIf="table">
-            <tr *ngFor="let row of table">
-                <td>{{ row.date }}</td>
-                <td>{{ row.chickenEggs }}</td>
-                <td>{{ row.duckEggs }}</td>
-                <td>{{ row.goatMilk }}</td>
-            </tr>
+            <ng-template ngFor let-id [ngForOf]="idArray">
+                <!-- EDIT -->
+                <tr *ngIf="table[id].edit">
+                    <td>{{  table[id].date }}</td>
+                    <td><input type="number" [(ngModel)]="table[id].data.edited.chickenEggs" class="form-control"></td>
+                    <td><input type="number" [(ngModel)]="table[id].data.edited.duckEggs" class="form-control"></td>
+                    <td><input type="number" [(ngModel)]="table[id].data.edited.goatMilk" class="form-control"></td>
+                    <td><input type="button" class="btn btn-sm" value="Submit" (click)="submitEdit(id)"></td>
+                    <td><input type="button" class="btn btn-sm" value="Cancel" (click)="cancelEdit(id)"></td>
+                </tr>
+                <!-- DELETE -->
+                <tr *ngIf="table[id].delete" class="warning">
+                    <td>{{  table[id].date }}</td>
+                    <td>{{ table[id].data.original.chickenEggs }}</td>
+                    <td>{{ table[id].data.original.duckEggs }}</td>
+                    <td>{{ table[id].data.original.goatMilk }}</td>
+                    <td>
+                        <input type="button" class="btn btn-sm btn-danger" value="Confirm Delete" (click)="submitDelete(id)">
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-danger btn-sm" value="Cancel" (click)="cancelDelete(id)">
+                    </td>
+                </tr>
+                <!-- DEFAULT -->
+                <tr *ngIf="!table[id].edit && !table[id].delete">
+                    <td>{{  table[id].date }}</td>
+                    <td>{{ table[id].data.original.chickenEggs }}</td>
+                    <td>{{ table[id].data.original.duckEggs }}</td>
+                    <td>{{ table[id].data.original.goatMilk }}</td>
+                    <td>
+                        <input type="button" class="btn btn-sm" value="Edit" (click)="editRow(id)">
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-sm" value="Delete" (click)="deleteRow(id)">
+                    </td>
+                </tr>
+            </ng-template>
         <tbody>    
     </table>
-    <div *ngIf="!table" class="alert alert-info">
+    <div *ngIf="loading" class="alert alert-info">
             Loading Data...
+    </div>
+    <div *ngIf="noData" class="alert alert-info">
+            You have no data to view. Submit some on the Input page!
     </div>
 </div>

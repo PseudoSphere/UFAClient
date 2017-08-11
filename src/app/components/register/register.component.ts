@@ -66,7 +66,11 @@ export class RegisterComponent implements OnInit {
 
   // Handle response with error
   httpErrResponse(err) {
-    this.error.message = err.statusText;
+    if(err.statusCode == 404) {
+      this.error.message = "Unable to reach server."
+    } else {
+      this.error.message = err.statusText;
+    }
     this.error.display = true;
   }
 }

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
+// Globals
+import { CCPService } from '../../globals/ccp.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  image: String;
-
-  constructor() {
-    localStorage.setItem('homage', 'http://lorempixel.com/600/100/abstract/');
-    this.image = localStorage.getItem('homage');
-  }
+  constructor(
+    private ccp: CCPService
+  ) {}
 
   ngOnInit() {
   }

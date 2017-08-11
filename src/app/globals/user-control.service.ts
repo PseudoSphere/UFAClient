@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router }from '@angular/router';
 
 @Injectable()
 export class UserControlService {
@@ -6,7 +7,9 @@ export class UserControlService {
   token: String;
   username: String;
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     this.loggedIn = false;
   }
 
@@ -14,5 +17,14 @@ export class UserControlService {
     this.token = null;
     this.username = null;
     this.loggedIn = false;
+  }
+
+  canActivate() {
+    if(this.loggedIn) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 }

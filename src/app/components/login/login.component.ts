@@ -3,10 +3,9 @@ import { Router } from '@angular/router'
 import {Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 
-//Globals
+// Globals
 import { UserControlService } from '../../globals/user-control.service';
 
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private http: Http,
-    private userControl: UserControlService
+    private userControl: UserControlService,
   ) {
     this.user = {
       username:"",
@@ -69,7 +68,11 @@ export class LoginComponent implements OnInit {
 
   // Handle response with error
   httpErrResponse(err) {
-    this.error.message = err.statusText;
+    if(err.statusCode == 404) {
+      this.error.message = "Unable to reach server."
+    } else {
+      this.error.message = err.statusText;
+    }
     this.error.display = true;
   }
 }

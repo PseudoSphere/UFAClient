@@ -15,17 +15,26 @@ import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
-//Globals
+// Globals
 import { UserControlService } from './globals/user-control.service';
+import { CCPService } from './globals/ccp.service';
 
-
+// Routs
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+
+/* Remove login requirement for ease of testing
   {path: 'input', component: EntryformComponent},
   {path: 'data', component: DataComponent},
   {path: 'profile', component: ProfileComponent}
+/**/
+/**/
+  {path: 'input', component: EntryformComponent, canActivate:[UserControlService]},
+  {path: 'data', component: DataComponent, canActivate:[UserControlService]},
+  {path: 'profile', component: ProfileComponent, canActivate:[UserControlService]}
+/**/
 ]
 
 @NgModule({
@@ -45,7 +54,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [UserControlService],
+  providers: [UserControlService, CCPService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
