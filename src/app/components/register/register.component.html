@@ -1,15 +1,21 @@
-<div *ngIf="error.display" class="alert alert-warning">
-  <p>{{ error.message }}</p>
-</div> 
+<div class="container" style="max-width:500px">
+  <div *ngIf="error.display" class="alert alert-warning">
+    <p>{{ error.message }}</p>
+  </div> 
 
-<div>
   <h3>Create New Account</h3>
-  Username<br>
-  <input type="text" [(ngModel)]="user.username"><br>
+  <div class="input-group">
+    <span class="input-group-addon">Username</span>
+    <input type="text" [(ngModel)]="user.username" class="form-control">
+  </div>
   <hr>
 
-  Password<br>
-  <input type="text" [(ngModel)]="user.password"><br>
+  
+  <div class="input-group">
+    <span class="input-group-addon">Password</span>
+    <input type="text" [(ngModel)]="user.password" class="form-control">
+  </div>
   <hr>
+  
+  <input type="button" class="btn btn-block" value="Register" (click)="register()">
 </div>
-<input type="button" class="btn" value="Register" (click)="register()">

@@ -1,4 +1,5 @@
 <div class="container">
+    <h3>Product Over Time</h3>
     <canvas id="myChart"></canvas>
     <div *ngIf="showGraph">
         <input type="checkbox" [checked]="graphCEggs.show" (change)="updateCEggs()">Graph Chicken Egg Data<br>
@@ -6,8 +7,9 @@
         <input type="checkbox" [checked]="graphGMilk.show" (change)="updateGMilk()">Graph Goat Milk Data<br>
     </div>
 </div>
-
-<div class="container" style="max-width:500px">
+<hr>
+<div class="container">
+    <h3>Time Frame Selector</h3>
     <div *ngIf="dataInfo.show" class="alert alert-info" (click)="hideMessage()">
     {{ dataInfo.message }}
   </div>
@@ -23,7 +25,9 @@
 </div>
 <hr>
 
+<!-- -- -- -- DATA TABLE -- -- -- -->
 <div *ngIf="showTable" class="container">
+    <h3>Product Data</h3>
     <table class="table table-striped table-responsive text-center">
         <thead>
             <tr>
@@ -38,7 +42,7 @@
             <ng-template ngFor let-id [ngForOf]="idArray">
                 <!-- EDIT -->
                 <tr *ngIf="table[id].edit">
-                    <td>{{  table[id].date }}</td>
+                    <td>{{ table[id].date }}</td>
                     <td><input type="number" [(ngModel)]="table[id].data.edited.chickenEggs" class="form-control"></td>
                     <td><input type="number" [(ngModel)]="table[id].data.edited.duckEggs" class="form-control"></td>
                     <td><input type="number" [(ngModel)]="table[id].data.edited.goatMilk" class="form-control"></td>
@@ -47,7 +51,7 @@
                 </tr>
                 <!-- DELETE -->
                 <tr *ngIf="table[id].delete" class="warning">
-                    <td>{{  table[id].date }}</td>
+                    <td>{{ table[id].date }}</td>
                     <td>{{ table[id].data.original.chickenEggs }}</td>
                     <td>{{ table[id].data.original.duckEggs }}</td>
                     <td>{{ table[id].data.original.goatMilk }}</td>
@@ -60,7 +64,7 @@
                 </tr>
                 <!-- DEFAULT -->
                 <tr *ngIf="!table[id].edit && !table[id].delete">
-                    <td>{{  table[id].date }}</td>
+                    <td>{{ table[id].date }}</td>
                     <td>{{ table[id].data.original.chickenEggs }}</td>
                     <td>{{ table[id].data.original.duckEggs }}</td>
                     <td>{{ table[id].data.original.goatMilk }}</td>
@@ -80,4 +84,57 @@
     <div *ngIf="noData" class="alert alert-info">
             You have no data to view. Submit some on the Input page!
     </div>
+    <hr>
+
+    <!-- -- -- -- FEED TABLE-- -- -- -->
+    <h3>Feed Data</h3>
+    <table class="table table-striped table-responsive text-center">
+        <thead>
+            <tr>
+                <th class="text-center">Date</th>
+                <th class="text-center">Feed For</th>
+                <th class="text-center">Cost</th>
+                <th class="text-center" colspan="2">Options</th>
+                <th class="text-center">Cost Per Product*</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="table">
+            <ng-template ngFor let-id [ngForOf]="idFeed">
+                <!-- EDIT -->
+                <tr *ngIf="feedTable[id].edit">
+                    <td>{{ feedTable[id].date }}</td>
+                    <td>{{ feedTable[id].feedType }}</td>
+                    <td>$<input type="number" [(ngModel)]="feedTable[id].data.edited.cost" class="form-control"></td>
+                    <td><input type="button" class="btn btn-sm" value="Submit" (click)="submitEditFeed(id)"></td>
+                    <td><input type="button" class="btn btn-sm" value="Cancel" (click)="cancelEditFeed(id)"></td>
+                </tr>
+                <!-- DELETE -->
+                <tr *ngIf="feedTable[id].delete" class="warning">
+                    <td>{{ feedTable[id].date }}</td>
+                    <td>{{ feedTable[id].feedType }}</td>
+                    <td>${{ feedTable[id].data.original.cost }}</td>
+                    <td>
+                        <input type="button" class="btn btn-sm btn-danger" value="Confirm Delete" (click)="submitDeleteFeed(id)">
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-danger btn-sm" value="Cancel" (click)="cancelDeleteFeed(id)">
+                    </td>
+                </tr>
+                <!-- DEFAULT -->
+                <tr *ngIf="!feedTable[id].edit && !feedTable[id].delete">
+                    <td>{{ feedTable[id].date }}</td>
+                    <td>{{ feedTable[id].feedType }}</td>
+                    <td>${{ feedTable[id].data.original.cost }}</td>
+                    <td>
+                        <input type="button" class="btn btn-sm" value="Edit" (click)="editRowFeed(id)">
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-sm" value="Delete" (click)="deleteRowFeed(id)">
+                    </td>
+                    <td>${{ feedTable[id].costPerProduct }}</td>
+                </tr>
+            </ng-template>
+        <tbody>
+    </table>
+    <p>*Product cost shown is for the period between the feed shown(inclusive) and the next(exclusive)</p>
 </div>

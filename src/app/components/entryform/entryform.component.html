@@ -7,13 +7,22 @@
     <input type="date" [(ngModel)]="inputDate" class="form-control">
   </div>
   <hr>
+
   <div *ngFor="let animal of animals">
     <div class="input-group">
       <span class="input-group-addon">{{animal.name}}</span>
       <input type="number" [(ngModel)]="animal.quantity" class="form-control"> 
       <span class="input-group-addon">{{animal.product}}</span>
     </div>
+    <br>
+    <div class="input-group">
+      <span class="input-group-addon">New Feed*</span>
+      <span class="input-group-addon">$</span>
+      <input type="number" [(ngModel)]="animal.cost" class="form-control">
+    </div>
     <hr>
   </div>
   <input type="button" class="btn btn-block" value="Submit" (click)="inputData()">
+  <br>
+  <p>*Only enter feed cost when starting new cycle (aka opening a new bag/box of feed)</p>
 </div>

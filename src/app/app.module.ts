@@ -30,7 +30,7 @@ const appRoutes: Routes = [
   {path: 'data', component: DataComponent},
   {path: 'profile', component: ProfileComponent}
 /**/
-/**/
+/* */
   {path: 'input', component: EntryformComponent, canActivate:[UserControlService]},
   {path: 'data', component: DataComponent, canActivate:[UserControlService]},
   {path: 'profile', component: ProfileComponent, canActivate:[UserControlService]}

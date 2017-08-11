@@ -1,15 +1,19 @@
-<div *ngIf="error.display" class="alert alert-warning" (click)="this.error.display = false">
-  <p>{{ error.message }}</p>
-</div> 
+<div class="container" style="max-width:500px">
+  <div *ngIf="error.display" class="alert alert-warning" (click)="this.error.display = false">
+    <p>{{ error.message }}</p>
+  </div> 
 
-<div>
   <h3>Login</h3>
-  Username<br>
-  <input type="text" [(ngModel)]="user.username"><br>
+  <div class="input-group">
+    <span class="input-group-addon">Username</span>
+    <input type="text" [(ngModel)]="user.username" class="form-control">
+  </div>
   <hr>
 
-  Password<br>
-  <input type="text" [(ngModel)]="user.password"><br>
+  <div class="input-group">
+    <span class="input-group-addon">Password</span>
+    <input type="text" [(ngModel)]="user.password" class="form-control">
+  </div>
   <hr>
+  <input type="button" class="btn btn-block" value="Login" (click)="login()">
 </div>
-<input type="button" class="btn" value="Login" (click)="login()">

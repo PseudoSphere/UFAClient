@@ -46,12 +46,23 @@ export class EntryformComponent implements OnInit {
     let request = {
       token: this.userControl.token,
       date: this.inputDate,
-      username: this.userControl.username
+      username: this.userControl.username,
+      feedValues: []
     };
     // Loop through each product
     this.animals.forEach(animal => {
-        request[animal.dbColumn] = animal.quantity;
+      request[animal.dbColumn] = animal.quantity;
+      
+      // if feed
+      if(animal.cost) {
+        request.feedValues.push({
+          feedType:animal.dbColumn, 
+          cost: animal.cost
+        });
+      }
     });
+    console.log(request);
+    
 
     // HTTP request
     let headers = new Headers();
@@ -87,4 +98,5 @@ interface boxData{
   product: string;
   dbColumn?: string;
   quantity?: any;
+  cost?: Number;
 }
