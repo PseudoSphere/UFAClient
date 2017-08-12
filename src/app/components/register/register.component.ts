@@ -53,11 +53,8 @@ export class RegisterComponent implements OnInit {
   // Handle new data response
   newData(data) {
     if(data.success) {
-      this.userControl.loggedIn = true;
+      this.userControl.login(data.username, data.token);
       this.router.navigate(['/profile']);
-
-      this.userControl.username = data.username;
-      this.userControl.token = data.token;
     } else {
       this.error.message = data.message;
       this.error.display = true;

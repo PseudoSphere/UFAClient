@@ -44,9 +44,9 @@ export class EntryformComponent implements OnInit {
 
     // Create and send post request
     let request = {
-      token: this.userControl.token,
+      token: this.userControl.getToken(),
       date: this.inputDate,
-      username: this.userControl.username,
+      username: this.userControl.getUsername(),
       feedValues: []
     };
     // Loop through each product
@@ -67,7 +67,7 @@ export class EntryformComponent implements OnInit {
     // HTTP request
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('JWT', this.userControl.token.toString());
+    headers.append('JWT', this.userControl.getToken());
     
     var response = this.http.post(
       '/input',

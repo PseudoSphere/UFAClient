@@ -96,17 +96,17 @@ export class DataComponent implements OnInit {
 
   getData() {
     this.showTable = true;
-    if(!this.userControl.loggedIn) {
+    if(!this.userControl.loggedIn()) {
       return;
     }
 
     this.loading = true;
-    let url = '/data/' + this.userControl.username + '/' + this.timeFrame;
+    let url = '/data/' + this.userControl.getUsername() + '/' + this.timeFrame;
   
     // HTTP request
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('JWT', this.userControl.token.toString());
+    headers.append('JWT', this.userControl.getToken());
     
     var response = this.http.get(
       url,
@@ -203,7 +203,7 @@ export class DataComponent implements OnInit {
     // HTTP request
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('JWT', this.userControl.token.toString());
+    headers.append('JWT', this.userControl.getToken());
     
     var response = this.http.post(
       '/update',
@@ -229,7 +229,7 @@ export class DataComponent implements OnInit {
     // HTTP request
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('JWT', this.userControl.token.toString());
+    headers.append('JWT', this.userControl.getToken());
     
     var response = this.http.post(
       '/delete',
@@ -391,7 +391,7 @@ export class DataComponent implements OnInit {
     // HTTP request
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('JWT', this.userControl.token.toString());
+    headers.append('JWT', this.userControl.getToken());
     
     var response = this.http.post(
       '/feed/update',
@@ -417,7 +417,7 @@ export class DataComponent implements OnInit {
     // HTTP request
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('JWT', this.userControl.token.toString());
+    headers.append('JWT', this.userControl.getToken());
     
     var response = this.http.post(
       '/feed/delete',

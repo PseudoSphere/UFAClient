@@ -16,13 +16,13 @@
       </ul>
 
       <!-- Show while logged in -->
-      <ul *ngIf="userControl.loggedIn" class="nav navbar-nav navbar-right">
-        <li [routerLinkActive]="['active']"><a [routerLink]="['/profile']">{{ userControl.username }}</a></li>
+      <ul *ngIf="userControl.loggedIn()" class="nav navbar-nav navbar-right">
+        <li [routerLinkActive]="['active']"><a [routerLink]="['/profile']">{{ userControl.getUsername() }}</a></li>
         <li [routerLinkActive]="['active']"><a [routerLink]="['/login']" (click)="userControl.logout()">Logout</a></li>
       </ul>
 
       <!-- Show while logged out -->
-      <ul *ngIf="!userControl.loggedIn" class="nav navbar-nav navbar-right">
+      <ul *ngIf="!userControl.loggedIn()" class="nav navbar-nav navbar-right">
         <li [routerLinkActive]="['active']"><a [routerLink]="['/register']">Register</a></li>
         <li [routerLinkActive]="['active']"><a [routerLink]="['/login']">Login</a></li>
       </ul>
